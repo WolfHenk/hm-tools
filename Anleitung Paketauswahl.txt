@@ -2,94 +2,56 @@
 
 Bitte komplett lesen, dann loslegen!
 
-Am besten das komplette auf dem git
-bereitgestellte Release installieren!
+Am besten das komplette auf dem GitHub-Repository bereitgestellte Release installieren.
 
-https://github.com/fhetty/hm-tools/releases
-
+Repository dieses Forks:
+https://github.com/WolfHenk/hm-tools
 
 
 ***************** Ein Linux System ist vorhanden *****************
 
-git clone https://github.com/fhetty/hm-tools.git
+git clone https://github.com/WolfHenk/hm-tools.git
 
 cd hm-tools
 
-In der Datei "generate_img.sh" folgenden Bereich editieren:
+In der Datei "generate_img.sh" die Zeile
 
-### Hier können einzelne Programme !!! abgewählt !!! werden ###
-# Bitte beachten, es gibt einen arm, ein aarch64 und eine x86 Bereich!
-# Raspi3 und Raspi4 sind z.B. aarch64!
-# Das Tinkerboard ist arm!
-# z.B. "cp -a arm/mc tmp/arm/"
-# wird "# cp -a arm/mc tmp/arm/"
+TOOLS=(mc nano htop bash imagemagick sshpass oathtool iostat)
 
-# copy mc
-cp -a arm/mc tmp/arm/
+anpassen. Ein Programm, das nicht in das Paket soll, wird aus dieser Liste entfernt.
 
-# copy nano
-cp -a arm/nano tmp/arm/
+Die Auswahl gilt für alle drei Architektur-Bereiche:
+- arm      = 32-Bit ARM
+- aarch64  = 64-Bit ARM
+- x86      = i386/i686/x86_64
 
-.....
-
-###############################################################
+Raspberry Pi 5 und Compute Module 5 verwenden unter RaspberryMatic den
+aarch64-Bereich.
 
 Danach einfach die "generate_img.sh" ausführen.
 
-Jetzt habt Ihr eine fertige "hm-tools.x.x.x.tar.gz" Datei,
-die wie jedes andere Addon auf dem Homematic-Raspi installiert werden kann.
+Jetzt liegt eine fertige Datei "hm-tools-x.x.x.tar.gz" im Projektverzeichnis.
+Diese kann wie jedes andere Addon auf RaspberryMatic installiert werden.
 
 ******************************************************************
 
 
-
 ******************* Kein Linux System zur Hand *******************
 
-
-
-Es besteht die Möglichkeit, unter Windows z.B. mit Total Commander
-die heruntergeladene Datei "hm-tools-x.x.x.tar.gz" durch Doppelklick
-temporär zu entpacken und in der tar.gz die Datei "update_script" zu editieren.
-Dazu am besten das Programm "Notepad++" verwenden, da mit anderen Editoren mitunter
-das Dateiformat von Linux in Windows geändert wird!
-
-
-Dort diesen Bereich suchen, und die nicht benötigten Programme auskommentieren.
-
-  ### Hier können einzelne Programme !!! abgewählt !!! werden ###
-  # z.B. "cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/"
-  # wird "# cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/"
-
-  # copy addon mc
-  cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/
-
-  # copy addon nano
-  cp -af ${FILE_DIR}/${TOOL_NANO}/* ${ADDON_DIR}/
-  
-  .......
-
-  ###############################################################
-  
-Nach dem Speichern und Schließen des Editors fragt z.B. Total Commander,
-ob die Änderung zurück gepackt werden soll.
-Dieses Fenster mit "Ja" schließen.
-Danach aus der temporär entpackten "hm-tools-x.x.x.tar.gz" zurück navigieren (Backspace)
-Danach kommt eine weitere Abfrage, ob zurück gepackt werden soll.
-Auch diese Frage mit "Ja" bestätigen.
-Das anschießend erscheinende Fenster "Wollen Sie die Datei überschreiben"
-ebenfalls mit "Ja" bestätigen.
-Jetzt noch einmal zurück navigieren (Backspace) und Ihr seht wieder die hm-tools-x.x.x.tar.gz.
-Diese kann wie jedes Addon auf dem Homematic-Raspi installiert werden kann.
+Die manuelle Änderung eines fertigen tar.gz-Archivs unter Windows bleibt
+grundsätzlich möglich. Empfohlen wird jedoch, das Paket unter Linux mit
+"generate_img.sh" neu zu erzeugen, damit die Auswahl für alle Architekturen
+konsistent bleibt.
 
 Unter
 -> Einstellungen
                -> Systemsteuerung
                                  -> Zusatzsoftware
-                                 
-wird im rechten Bereich des HM-Tools angezeigt, welche Erweiterungen installiert sind.
+
+wird im rechten Bereich von HM-Tools angezeigt, welche Erweiterungen installiert sind.
 
 Viel Spaß
 
-Ich hafte nicht für Hard- und Softwareschäden, die am PC-System, oder Homematic-Raspi
-durch die Verwendung dieses Addons entstehen.
-Verwendung des Addon auf eigene Gefahr.
+Ich hafte nicht für Hard- und Softwareschäden, die am PC-System oder
+RaspberryMatic-System durch die Verwendung dieses Addons entstehen.
+Verwendung des Addons auf eigene Gefahr.
