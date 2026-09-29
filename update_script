@@ -17,95 +17,107 @@ TOOL_SSHPASS=sshpass
 TOOL_OATHTOOL=oathtool
 TOOL_IOSTAT=iostat
 
-ARCH="$(uname -m)"
+ARCH="$(uname -m 2>/dev/null)"
+MODEL="unknown"
+if [ -r /proc/device-tree/model ]; then
+  MODEL="$(tr -d '\000' </proc/device-tree/model 2>/dev/null)"
+fi
 
-# make sure this addon is only executed on
-# supported platforms
-
-if [ "$1" == "HM-RASPBERRYMATIC" ]; then
-  echo $1 >>$LOG_FILE
-  
-  mount | grep /usr/local 2>&1 >/dev/null
-    if [ $? -eq 1 ]; then
-      mount /usr/local
-    fi
-
-  # create necessary directories
-  mkdir -p ${ADDON_DIR}
-  chmod 755 ${ADDON_DIR}
-  # web-configuration
-  mkdir -p ${WWW_DIR}
-  chmod 755 ${WWW_DIR}
-  # rc.d
-  mkdir -p ${RCD_DIR}
-  chmod 755 ${RCD_DIR}
-  # profile.d
-  mkdir -p ${PROFILE_DIR}
-  chmod 755 ${PROFILE_DIR}
-
-
-  # remove old stuff
-  rm -rf $ADDON_DIR/*
-
-  # copy profile.d
-  cp -af profile.d/* ${PROFILE_DIR}/
-
-  # copy licenses
-  cp -af ${LICENSES_DIR} ${ADDON_DIR}/
-
-  if [[ "${ARCH}" == "i686" ]] ||
-     [[ "${ARCH}" == "x86_64" ]]; then
-    FILE_DIR=x86
-  elif [[ "${ARCH}" == "aarch64" ]]; then
+# Select the binary set explicitly. Raspberry Pi 5 and Compute Module 5
+# run RaspberryMatic as 64-bit ARM and therefore use the aarch64 payload.
+case "${ARCH}" in
+  aarch64|arm64)
     FILE_DIR=aarch64
-  else
+    ;;
+  armv6l|armv7l|armv8l|arm)
     FILE_DIR=arm
+    ;;
+  i386|i486|i586|i686|x86_64|amd64)
+    FILE_DIR=x86
+    ;;
+  *)
+    echo "hm-tools: unsupported architecture '${ARCH}' (model: ${MODEL})" >&2
+    exit 1
+    ;;
+esac
+
+# make sure this addon is only executed on RaspberryMatic
+if [ "$1" = "HM-RASPBERRYMATIC" ]; then
+  if [ -n "${LOG_FILE:-}" ]; then
+    echo "$1" >>"${LOG_FILE}"
+    echo "hm-tools: model=${MODEL}, arch=${ARCH}, payload=${FILE_DIR}" >>"${LOG_FILE}"
   fi
 
+  if ! mount | grep -q ' /usr/local '; then
+    mount /usr/local || exit 1
+  fi
+
+  # create necessary directories
+  mkdir -p "${ADDON_DIR}" "${WWW_DIR}" "${RCD_DIR}" "${PROFILE_DIR}" || exit 1
+  chmod 755 "${ADDON_DIR}" "${WWW_DIR}" "${RCD_DIR}" "${PROFILE_DIR}"
+
+  # remove old stuff
+  rm -rf "${ADDON_DIR:?}/"*
+
+  # copy profile.d
+  cp -af profile.d/* "${PROFILE_DIR}/"
+
+  # copy licenses
+  cp -af "${LICENSES_DIR}" "${ADDON_DIR}/"
+
+  copy_tool() {
+    tool="$1"
+    src="${FILE_DIR}/${tool}"
+
+    if [ ! -d "${src}" ]; then
+      echo "hm-tools: missing package '${src}'" >&2
+      exit 1
+    fi
+
+    cp -af "${src}/"* "${ADDON_DIR}/" || exit 1
+  }
+
   ### Hier können einzelne Programme !!! abgewählt !!! werden ###
-  # z.B. "cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/"
-  # wird "# cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/"
+  # Zum Abwählen die jeweilige copy_tool-Zeile auskommentieren.
 
   # copy addon mc
-  cp -af ${FILE_DIR}/${TOOL_MC}/* ${ADDON_DIR}/
+  copy_tool "${TOOL_MC}"
 
   # copy addon nano
-  cp -af ${FILE_DIR}/${TOOL_NANO}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_NANO}"
+
   # copy addon htop
-  cp -af ${FILE_DIR}/${TOOL_HTOP}/* ${ADDON_DIR}/
+  copy_tool "${TOOL_HTOP}"
 
   # copy addon bash
-  cp -af ${FILE_DIR}/${TOOL_BASH}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_BASH}"
+
   # copy addon imagemagick
-  cp -af ${FILE_DIR}/${TOOL_IMAGEMAGICK}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_IMAGEMAGICK}"
+
   # copy addon sshpass
-  cp -af ${FILE_DIR}/${TOOL_SSHPASS}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_SSHPASS}"
+
   # copy addon oathtool
-  cp -af ${FILE_DIR}/${TOOL_OATHTOOL}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_OATHTOOL}"
+
   # copy addon iostat
-  cp -af ${FILE_DIR}/${TOOL_IOSTAT}/* ${ADDON_DIR}/
-  
+  copy_tool "${TOOL_IOSTAT}"
+
   ###############################################################
 
   # copy web-configuration
-  cp -af www/* ${WWW_DIR}
+  cp -af www/* "${WWW_DIR}/"
 
   # copy version
-  cp -af VERSION ${ADDON_DIR}/
+  cp -af VERSION "${ADDON_DIR}/"
 
   # copy startup script
-  cp -af rc.d/* ${RCD_DIR}
+  cp -af rc.d/* "${RCD_DIR}/"
 
-  #build system launcher
-  chmod +x ${RCD_DIR}/${ADDON_NAME}
-   
+  # build system launcher
+  chmod +x "${RCD_DIR}/${ADDON_NAME}"
 fi
 
-# synchronize filesystem before performing a reboot
-# afterwards
+# synchronize filesystem before performing a reboot afterwards
 sync
