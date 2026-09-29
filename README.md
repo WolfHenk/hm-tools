@@ -1,6 +1,6 @@
 # hm-tools
 
-Dieses Addon funktioniert nur mit **RaspberryMatic**.
+Dieses Addon funktioniert nur mit **OpenCCU**.
 
 Unterstützte Architekturen:
 
@@ -10,7 +10,7 @@ Unterstützte Architekturen:
 
 ## Raspberry Pi 5 und Compute Module 5
 
-Raspberry Pi 5 und Compute Module 5 werden unterstützt. Beide Plattformen verwenden mit RaspberryMatic den 64-Bit-ARM-Pfad `aarch64`.
+Raspberry Pi 5 und Compute Module 5 werden unterstützt. Beide Plattformen verwenden mit OpenCCU den 64-Bit-ARM-Pfad `aarch64`.
 
 Die Installation erkennt die Architektur über `uname -m`. Unbekannte Architekturen werden nicht mehr stillschweigend als ARM behandelt, sondern mit einer Fehlermeldung abgebrochen. Das verhindert die Installation eines falschen Binärpakets.
 
@@ -21,15 +21,15 @@ Getestete bzw. vorgesehene Raspberry-Pi-Familien:
 - Raspberry Pi 4 / Compute Module 4
 - Raspberry Pi 5 / Compute Module 5
 
-Außerdem bleibt die x86-Variante für entsprechende RaspberryMatic-Installationen erhalten.
+Außerdem bleibt die x86-Variante für entsprechende OpenCCU-Installationen erhalten.
 
 ## Unterstützte CCU-Modelle
 
-- [RaspberryMatic](https://github.com/OpenCCU/OpenCCU)
+- [OpenCCU](https://github.com/OpenCCU/OpenCCU)
 
 ## Beschreibung
 
-Dieses Addon erweitert RaspberryMatic um Konsolen-Programme, die im Standard-System nicht enthalten sind.
+Dieses Addon erweitert OpenCCU um Konsolen-Programme, die im Standard-System nicht enthalten sind.
 
 ### Enthaltene Konsolen-Tools
 
@@ -87,7 +87,7 @@ The source code of the binaries is subject to the following licenses:
 
 Pi-5/CM5-Anpassungen im Fork von WolfHenk.
 
-### RaspberryMatic / OpenCCU
+### OpenCCU
 
 - https://github.com/OpenCCU/OpenCCU
 
@@ -99,4 +99,4 @@ Use this addon at your own risk.
 
 ### Raspberry Pi 5 / Compute Module 5 (aarch64)
 
-Version 0.8.1 updates the aarch64 runtime for 16 KiB page-size kernels used by current OpenCCU/RaspberryMatic on Raspberry Pi 5 and Compute Module 5. The bundled ELF binaries and private runtime libraries use 64 KiB segment alignment. Midnight Commander, nano, htop, bash, sshpass, oathtool, iostat and ImageMagick were tested on a Compute Module 5 running OpenCCU 3.89.11.20260919. The aarch64 ImageMagick runtime is based on Debian 12 ImageMagick 6.9.11-60 and is isolated from the OpenCCU system libraries.
+Version 0.8.1 updates the aarch64 runtime for 16 KiB page-size kernels used by current OpenCCU on Raspberry Pi 5 and Compute Module 5. The bundled ELF binaries and private runtime libraries use 64 KiB segment alignment. Midnight Commander, nano, htop, bash, sshpass, oathtool, iostat and ImageMagick were tested on a Compute Module 5 running OpenCCU 3.89.11.20260919. The aarch64 ImageMagick runtime is based on Debian 12 ImageMagick 6.9.11-60 and is isolated from the OpenCCU system libraries.
