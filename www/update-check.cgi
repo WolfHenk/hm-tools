@@ -1,7 +1,7 @@
 #!/bin/tclsh
 
-set checkURL    "https://raw.githubusercontent.com/fhetty/hm-tools/master/VERSION"
-set downloadURL "https://github.com/fhetty/hm-tools/releases"
+set checkURL    "https://raw.githubusercontent.com/WolfHenk/hm-tools/master/VERSION"
+set downloadURL "https://github.com/WolfHenk/hm-tools/releases"
 
 catch {
   set input $env(QUERY_STRING)
