@@ -1,61 +1,76 @@
-﻿# hm-tools
+# hm-tools
 
-Dieses Addon funktioniert nur mit <B>RaspberryMatic</B>.<br>
-Geeignet für arm, aarch64 und x86.<br>
-Getestet mit Raspi2, Raspi3, Raspi4, Synology NAS (x86 "ova").
+Dieses Addon funktioniert nur mit **RaspberryMatic**.
 
-## Unterstützte CCU Modelle
-* [RaspberryMatic](http://homematic-forum.de/forum/viewtopic.php?f=56&t=26917)
+Unterstützte Architekturen:
 
-## Beschreibung:
-Dieses Addon erweitert RaspberryMatic um Konsolen-Programme, die im Standard-System nicht enthalten sind.<br>
-Eine Anleitung der einzelnen Anwendungen findet Ihr im Netz.<br>
+- ARM 32 Bit (`armv6l`, `armv7l`, `armv8l`)
+- ARM 64 Bit (`aarch64` / `arm64`)
+- x86 (`i386` bis `i686`, `x86_64` / `amd64`)
 
-### Im Plugin sind zur Zeit folgende Konsolen-Tools enthalten:
+## Raspberry Pi 5 und Compute Module 5
 
-* midnight commander 4.8.29
-* nano 7.2
-* htop 3.2.2
-* bash 5.2.15
-* imagemagick 7.1.0-51 (libjpeg, libpng include)
-* sshpass 1.09
-* oathtoolkit 2.6.9
-* iostat 2.2
+Raspberry Pi 5 und Compute Module 5 werden unterstützt. Beide Plattformen verwenden mit RaspberryMatic den 64-Bit-ARM-Pfad `aarch64`.
 
-#### Hinweis:
-Dieses Addon schreibt nicht in den schreibgeschützten Bereich des Filesystem!<br>
-Nach der Installation ist ein Neustart erforderlich!<br>
+Die Installation erkennt die Architektur über `uname -m`. Unbekannte Architekturen werden nicht mehr stillschweigend als ARM behandelt, sondern mit einer Fehlermeldung abgebrochen. Das verhindert die Installation eines falschen Binärpakets.
 
-Viel Spaß mit hm-tools.
+Getestete bzw. vorgesehene Raspberry-Pi-Familien:
 
-### Ihr braucht nicht alle Pakete!
+- Raspberry Pi 2
+- Raspberry Pi 3
+- Raspberry Pi 4 / Compute Module 4
+- Raspberry Pi 5 / Compute Module 5
 
-* Anleitung Paketauswahl.txt befolgen.
+Außerdem bleibt die x86-Variante für entsprechende RaspberryMatic-Installationen erhalten.
 
-### Anmerkung zu mc:
-Wenn der Midnight Commander unter Putty die Ränder nicht als Linien, sondern als Buchstaben darstellt,<br>
-müssen folgende Änderung in den Verbindungseinstellungen von Putty vorgenommen werden.<br>
+## Unterstützte CCU-Modelle
 
-Unter:
+- [RaspberryMatic](https://github.com/OpenCCU/OpenCCU)
 
-Windows -> Translation
+## Beschreibung
 
-*Remote character set*
+Dieses Addon erweitert RaspberryMatic um Konsolen-Programme, die im Standard-System nicht enthalten sind.
 
-ISO-8859-1-1998 (Latin-1, West Europe)
+### Enthaltene Konsolen-Tools
 
-einstellen.
+- midnight commander 4.8.29
+- nano 7.2
+- htop 3.2.2
+- bash 5.2.15
+- imagemagick 7.1.0-51 (libjpeg, libpng include)
+- sshpass 1.09
+- oathtoolkit 2.6.9
+- iostat 2.2
 
-Das anschließende Speichern unter Session nicht vergessen.
+### Hinweis
 
-## Licenses:
-All binaries are compiled from the buildroot system source code.<br>
-The source code of the compiled binaries was not modified.<br>
-<br>
-The source code of the binaries is subject to the following licenses:<br>
+Dieses Addon schreibt nicht in den schreibgeschützten Bereich des Dateisystems.
+
+Nach der Installation ist ein Neustart erforderlich.
+
+### Ihr braucht nicht alle Pakete
+
+Siehe `Anleitung Paketauswahl.txt`.
+
+### Anmerkung zu mc
+
+Wenn der Midnight Commander unter PuTTY die Ränder nicht als Linien, sondern als Buchstaben darstellt, muss unter
+
+`Windows -> Translation -> Remote character set`
+
+`ISO-8859-1-1998 (Latin-1, West Europe)`
+
+eingestellt und die Session anschließend gespeichert werden.
+
+## Licenses
+
+All binaries are compiled from the buildroot system source code.
+The source code of the compiled binaries was not modified.
+
+The source code of the binaries is subject to the following licenses:
 
 | Package | License |
-| ------------- | ------------- |
+| --- | --- |
 | mc | GNU General Public License |
 | expect | Public Domain |
 | nano | GNU General Public License |
@@ -66,18 +81,18 @@ The source code of the binaries is subject to the following licenses:<br>
 | oathtool | GNU General Public License |
 | iostat | GNU General Public License |
 
-### Autor
+### Ursprung
+
 2020 Frank Hettrich
 
-### Notice
-Danke an Jens Maus für seine Unterstützung.<br>
-Thanks to Jens Maus for his support.
+Pi-5/CM5-Anpassungen im Fork von WolfHenk.
 
-## RaspberryMatic
-* https://github.com/jens-maus/RaspberryMatic<br>
-<br>
-Ich hafte nicht für Schäden, die an eurer Hard- und Software
-durch die Verwendung dieses Addons entstehen.<br>
-Verwendung des Addon auf eigene Gefahr!<br>
-I'm not responsible for any hardware or software damage.<br>
-Use this addon at your own risk!
+### RaspberryMatic / OpenCCU
+
+- https://github.com/OpenCCU/OpenCCU
+
+Ich hafte nicht für Schäden, die an Hard- oder Software durch die Verwendung dieses Addons entstehen.
+Verwendung des Addons auf eigene Gefahr.
+
+I'm not responsible for any hardware or software damage.
+Use this addon at your own risk.
