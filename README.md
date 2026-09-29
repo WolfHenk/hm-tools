@@ -37,10 +37,10 @@ Dieses Addon erweitert RaspberryMatic um Konsolen-Programme, die im Standard-Sys
 - nano 7.2
 - htop 3.2.2
 - bash 5.2.15
-- imagemagick 7.1.0-51 (libjpeg, libpng include)
+- imagemagick 6.9.11-60 (aarch64; private runtime)
 - sshpass 1.09
-- oathtoolkit 2.6.9
-- iostat 2.2
+- oathtoolkit 2.6.7
+- iostat / sysstat 12.6.1
 
 ### Hinweis
 
@@ -96,3 +96,7 @@ Verwendung des Addons auf eigene Gefahr.
 
 I'm not responsible for any hardware or software damage.
 Use this addon at your own risk.
+
+### Raspberry Pi 5 / Compute Module 5 (aarch64)
+
+Version 0.8.1 updates the aarch64 runtime for 16 KiB page-size kernels used by current OpenCCU/RaspberryMatic on Raspberry Pi 5 and Compute Module 5. The bundled ELF binaries and private runtime libraries use 64 KiB segment alignment. Midnight Commander, nano, htop, bash, sshpass, oathtool, iostat and ImageMagick were tested on a Compute Module 5 running OpenCCU 3.89.11.20260919. The aarch64 ImageMagick runtime is based on Debian 12 ImageMagick 6.9.11-60 and is isolated from the OpenCCU system libraries.

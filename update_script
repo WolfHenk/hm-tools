@@ -74,7 +74,15 @@ if [ "$1" = "HM-RASPBERRYMATIC" ]; then
       exit 1
     fi
 
-    cp -af "${src}/"* "${ADDON_DIR}/" || exit 1
+    if [ "${FILE_DIR}" = "aarch64" ] && [ -d "${src}/payload" ]; then
+      payload_tmp="/tmp/hm-tools-${tool}-runtime.tgz"
+      rm -f "${payload_tmp}"
+      cat "${src}"/payload/${tool}-runtime.tgz.part-* >"${payload_tmp}" || exit 1
+      tar -xzf "${payload_tmp}" -C "${ADDON_DIR}" || exit 1
+      rm -f "${payload_tmp}"
+    else
+      cp -af "${src}/"* "${ADDON_DIR}/" || exit 1
+    fi
   }
 
   ### Hier können einzelne Programme !!! abgewählt !!! werden ###
